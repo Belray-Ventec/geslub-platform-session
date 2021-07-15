@@ -1,29 +1,9 @@
 import Cookies from "universal-cookie";
 
-interface User {
-  id: string;
-  usuario: string;
-  correo: string;
-  nombre: string;
-  contrasena: string;
-  faenas: string[];
-  fechaCreacion: Date;
-  fechaActualizacion: Date;
-  plataformas: any;
-  cargo?: string;
-  avatar?: string;
-}
+import * as I from "./index.types";
 
-interface Session {
-  authToken: string;
-  userId: string;
-}
-
-interface IGeslubSession {
-  name?: string;
-  domain?: string;
-  platform?: string;
-}
+const ApiTokenError = new Error("Token is undefined or invaild");
+ApiTokenError.name = "InvalidToken";
 
 const cookies = new Cookies();
 
@@ -36,13 +16,13 @@ class GeslubSession {
     name = "geslub-session",
     domain = "geslub.cl",
     platform = "https://geslub.cl",
-  }: IGeslubSession = {}) {
+  }: I.GeslubSession = {}) {
     this.name = name;
     this.domain = domain;
     this.platform = platform;
   }
 
-  getSessionData(): Session | undefined {
+  getSessionData(): I.Session | undefined {
     return cookies.get(this.name);
   }
 
@@ -54,14 +34,19 @@ class GeslubSession {
     cookies.remove(this.name, { domain: this.domain });
   }
 
-  async getUser(): Promise<User> {
+  async getUser(): Promise<I.User> {
+    const token = cookies.get(this.name)?.authToken;
+
+    if (!token) throw ApiTokenError;
+
     const res = await fetch(`${this.platform}/private/user`, {
       headers: {
         Authorization: `Bearer ${cookies.get(this.name)?.authToken}`,
       },
     });
 
-    if (!res.ok) throw new Error(String(res.status));
+    if (res.status === 301) throw ApiTokenError;
+    if (!res.ok) throw new Error(res.statusText);
 
     const data = await res.json();
     return data;
