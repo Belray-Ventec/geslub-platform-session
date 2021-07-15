@@ -1,0 +1,33 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Installing Dependencies
+        run: npm ci
+
+      - name: Linting Codebase
+        run: npm run lint
+
+      - name: Unit Testing
+        run: npm run test
+
+      - name: Building Artefacts
+        run: npm run build
+
+      - uses: EndBug/add-and-commit@v7
+        with:
+          default_author: github_actions
+          add: "dist --force"
