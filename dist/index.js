@@ -45,19 +45,19 @@ ApiTokenError.name = "InvalidToken";
 var cookies = new universal_cookie_1.default();
 var GeslubSession = /** @class */ (function () {
     function GeslubSession(_a) {
-        var _b = _a === void 0 ? {} : _a, _c = _b.name, name = _c === void 0 ? "geslub-session" : _c, _d = _b.domain, domain = _d === void 0 ? "geslub.cl" : _d, _e = _b.platform, platform = _e === void 0 ? "https://geslub.cl" : _e;
-        this.name = name;
+        var _b = _a === void 0 ? {} : _a, _c = _b.id, id = _c === void 0 ? "geslub-session" : _c, _d = _b.domain, domain = _d === void 0 ? "geslub.cl" : _d, _e = _b.authURL, authURL = _e === void 0 ? "https://api.geslub.cl/private/user" : _e;
+        this.id = id;
         this.domain = domain;
-        this.platform = platform;
+        this.authURL = authURL;
     }
-    GeslubSession.prototype.getSessionData = function () {
-        return cookies.get(this.name);
+    GeslubSession.prototype.getSession = function () {
+        return cookies.get(this.id);
     };
-    GeslubSession.prototype.session = function () {
-        return Boolean(this.getSessionData());
+    GeslubSession.prototype.isSession = function () {
+        return Boolean(this.getSession());
     };
     GeslubSession.prototype.removeSession = function () {
-        cookies.remove(this.name, { domain: this.domain });
+        cookies.remove(this.id, { domain: this.domain });
     };
     GeslubSession.prototype.getUser = function () {
         var _a, _b;
@@ -66,12 +66,12 @@ var GeslubSession = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        token = (_a = cookies.get(this.name)) === null || _a === void 0 ? void 0 : _a.authToken;
+                        token = (_a = cookies.get(this.id)) === null || _a === void 0 ? void 0 : _a.authToken;
                         if (!token)
                             throw ApiTokenError;
-                        return [4 /*yield*/, fetch(this.platform + "/private/user", {
+                        return [4 /*yield*/, fetch(this.authURL, {
                                 headers: {
-                                    Authorization: "Bearer " + ((_b = cookies.get(this.name)) === null || _b === void 0 ? void 0 : _b.authToken),
+                                    Authorization: "Bearer " + ((_b = cookies.get(this.id)) === null || _b === void 0 ? void 0 : _b.authToken),
                                 },
                             })];
                     case 1:
@@ -88,10 +88,10 @@ var GeslubSession = /** @class */ (function () {
             });
         });
     };
-    GeslubSession.prototype.getRedirectUrl = function (sendBackTo) {
+    GeslubSession.prototype.getLoginURL = function (sendBackTo) {
         if (!sendBackTo)
-            return this.platform;
-        return this.platform + "/?redirect=" + sendBackTo;
+            return this.authURL;
+        return this.authURL + "/?redirect=" + sendBackTo;
     };
     return GeslubSession;
 }());
