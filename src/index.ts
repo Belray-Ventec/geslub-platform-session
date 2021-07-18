@@ -8,40 +8,40 @@ ApiTokenError.name = "InvalidToken";
 const cookies = new Cookies();
 
 class GeslubSession {
-  name: string;
+  id: string;
   domain: string;
-  platform: string;
+  authURL: string;
 
   constructor({
-    name = "geslub-session",
+    id = "geslub-session",
     domain = "geslub.cl",
-    platform = "https://geslub.cl",
+    authURL = "https://api.geslub.cl/private/user",
   }: I.GeslubSession = {}) {
-    this.name = name;
+    this.id = id;
     this.domain = domain;
-    this.platform = platform;
+    this.authURL = authURL;
   }
 
-  getSessionData(): I.Session | undefined {
-    return cookies.get(this.name);
+  getSession(): I.Session | undefined {
+    return cookies.get(this.id);
   }
 
-  session(): boolean {
-    return Boolean(this.getSessionData());
+  isSession(): boolean {
+    return Boolean(this.getSession());
   }
 
   removeSession(): void {
-    cookies.remove(this.name, { domain: this.domain });
+    cookies.remove(this.id, { domain: this.domain });
   }
 
   async getUser(): Promise<I.User> {
-    const token = cookies.get(this.name)?.authToken;
+    const token = cookies.get(this.id)?.authToken;
 
     if (!token) throw ApiTokenError;
 
-    const res = await fetch(`${this.platform}/private/user`, {
+    const res = await fetch(this.authURL, {
       headers: {
-        Authorization: `Bearer ${cookies.get(this.name)?.authToken}`,
+        Authorization: `Bearer ${cookies.get(this.id)?.authToken}`,
       },
     });
 
@@ -52,10 +52,10 @@ class GeslubSession {
     return data;
   }
 
-  getRedirectUrl(sendBackTo?: string): string {
-    if (!sendBackTo) return this.platform;
+  getLoginURL(sendBackTo?: string): string {
+    if (!sendBackTo) return this.authURL;
 
-    return `${this.platform}/?redirect=${sendBackTo}`;
+    return `${this.authURL}/?redirect=${sendBackTo}`;
   }
 }
 

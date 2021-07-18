@@ -18,7 +18,7 @@ export interface Session {
 }
 
 export interface GeslubSession {
-  name?: string;
+  id?: string;
   domain?: string;
-  platform?: string;
+  authURL?: string;
 }
