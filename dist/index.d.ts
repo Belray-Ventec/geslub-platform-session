@@ -2,8 +2,8 @@ import * as I from "./index.types";
 declare class GeslubSession {
     id: string;
     domain: string;
-    authURL: string;
-    constructor({ id, domain, authURL, }?: I.GeslubSession);
+    apis: I.Apis;
+    constructor({ id, domain, baseURL, }?: I.GeslubSession);
     getSession(): I.Session | undefined;
     isSession(): boolean;
     removeSession(): void;
