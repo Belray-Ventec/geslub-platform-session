@@ -10,16 +10,19 @@ const cookies = new Cookies();
 class GeslubSession {
   id: string;
   domain: string;
-  authURL: string;
+  apis: I.Apis;
 
   constructor({
     id = "geslub-session",
     domain = "geslub.cl",
-    authURL = "https://api.geslub.cl/private/user",
+    baseURL = "https://api.geslub.cl",
   }: I.GeslubSession = {}) {
     this.id = id;
     this.domain = domain;
-    this.authURL = authURL;
+    this.apis = {
+      baseURL,
+      user: `${baseURL}/private/user`,
+    };
   }
 
   getSession(): I.Session | undefined {
@@ -39,7 +42,7 @@ class GeslubSession {
 
     if (!token) throw ApiTokenError;
 
-    const res = await fetch(this.authURL, {
+    const res = await fetch(this.apis.user, {
       headers: {
         Authorization: `Bearer ${cookies.get(this.id)?.authToken}`,
       },
@@ -53,9 +56,9 @@ class GeslubSession {
   }
 
   getLoginURL(sendBackTo?: string): string {
-    if (!sendBackTo) return this.authURL;
+    if (!sendBackTo) return this.apis.baseURL;
 
-    return `${this.authURL}/?redirect=${sendBackTo}`;
+    return `${this.apis.baseURL}/?redirect=${sendBackTo}`;
   }
 }
 
