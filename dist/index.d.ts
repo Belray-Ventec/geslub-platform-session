@@ -1,34 +1,13 @@
-interface User {
-    id: string;
-    usuario: string;
-    correo: string;
-    nombre: string;
-    contrasena: string;
-    faenas: string[];
-    fechaCreacion: Date;
-    fechaActualizacion: Date;
-    plataformas: any;
-    cargo?: string;
-    avatar?: string;
-}
-interface Session {
-    authToken: string;
-    userId: string;
-}
-interface IGeslubSession {
-    name?: string;
-    domain?: string;
-    platform?: string;
-}
+import * as I from "./index.types";
 declare class GeslubSession {
     name: string;
     domain: string;
     platform: string;
-    constructor({ name, domain, platform, }?: IGeslubSession);
-    getSessionData(): Session | undefined;
+    constructor({ name, domain, platform, }?: I.GeslubSession);
+    getSessionData(): I.Session | undefined;
     session(): boolean;
     removeSession(): void;
-    getUser(): Promise<User>;
+    getUser(): Promise<I.User>;
     getRedirectUrl(sendBackTo?: string): string;
 }
 export default GeslubSession;

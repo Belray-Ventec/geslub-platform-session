@@ -40,6 +40,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var universal_cookie_1 = __importDefault(require("universal-cookie"));
+var ApiTokenError = new Error("Token is undefined or invaild");
+ApiTokenError.name = "InvalidToken";
 var cookies = new universal_cookie_1.default();
 var GeslubSession = /** @class */ (function () {
     function GeslubSession(_a) {
@@ -58,23 +60,29 @@ var GeslubSession = /** @class */ (function () {
         cookies.remove(this.name, { domain: this.domain });
     };
     GeslubSession.prototype.getUser = function () {
-        var _a;
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var res, data;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, fetch(this.platform + "/private/user", {
-                            headers: {
-                                Authorization: "Bearer " + ((_a = cookies.get(this.name)) === null || _a === void 0 ? void 0 : _a.authToken),
-                            },
-                        })];
+            var token, res, data;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        token = (_a = cookies.get(this.name)) === null || _a === void 0 ? void 0 : _a.authToken;
+                        if (!token)
+                            throw ApiTokenError;
+                        return [4 /*yield*/, fetch(this.platform + "/private/user", {
+                                headers: {
+                                    Authorization: "Bearer " + ((_b = cookies.get(this.name)) === null || _b === void 0 ? void 0 : _b.authToken),
+                                },
+                            })];
                     case 1:
-                        res = _b.sent();
+                        res = _c.sent();
+                        if (res.status === 301)
+                            throw ApiTokenError;
                         if (!res.ok)
-                            throw new Error(String(res.status));
+                            throw new Error(res.statusText);
                         return [4 /*yield*/, res.json()];
                     case 2:
-                        data = _b.sent();
+                        data = _c.sent();
                         return [2 /*return*/, data];
                 }
             });
