@@ -20,12 +20,12 @@ if (Session.isSession()) {
 
     const session = Session.getSession(); // Se obtiene los datos de la sesión
 
-    const user = await Session.getUser() ; // Se obtiene los datos del usuario de la sesión activa
+    const user = await Session.getUser(); // Se obtiene los datos del usuario de la sesión activa
 
 } else {
     // Si no existe una sesión de usuario activa...
 
-    window.location.href = Session.getLoginURL(<MI_SUBDOMINIO_GESLUB>) // Se redirige al usuario a la pagina de inicio de sesión de Geslub
+    window.location.href = Session.getLoginURL(<MI_SUBDOMINIO_GESLUB>); // Se redirige al usuario a la pagina de inicio de sesión de Geslub
 }
 ```
 
