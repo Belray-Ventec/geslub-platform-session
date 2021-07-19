@@ -58,10 +58,10 @@ class GeslubSession {
     return data;
   }
 
-  getLoginURL(sendBackTo?: string): string {
-    if (!sendBackTo) return this.apis.apiURL;
+  getLoginURL(redirect?: string): string {
+    if (!redirect) return this.apis.apiURL;
 
-    return `${this.loginURL}/?redirect=${sendBackTo}`;
+    return `${this.loginURL}?redirect=${redirect}`;
   }
 }
 
