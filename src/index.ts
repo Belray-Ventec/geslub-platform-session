@@ -36,6 +36,10 @@ class GeslubSession {
     return Boolean(this.getSession());
   }
 
+  setSession(name: string, data: unknown, domain: string): void {
+    cookies.set(name, data, { domain });
+  }
+
   removeSession(): void {
     cookies.remove(this.id, { domain: this.domain });
   }
