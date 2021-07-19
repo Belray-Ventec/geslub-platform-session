@@ -45,12 +45,13 @@ ApiTokenError.name = "InvalidToken";
 var cookies = new universal_cookie_1.default();
 var GeslubSession = /** @class */ (function () {
     function GeslubSession(_a) {
-        var _b = _a === void 0 ? {} : _a, _c = _b.id, id = _c === void 0 ? "geslub-session" : _c, _d = _b.domain, domain = _d === void 0 ? "geslub.cl" : _d, _e = _b.baseURL, baseURL = _e === void 0 ? "https://api.geslub.cl" : _e;
+        var _b = _a === void 0 ? {} : _a, _c = _b.id, id = _c === void 0 ? "geslub-session" : _c, _d = _b.domain, domain = _d === void 0 ? "geslub.cl" : _d, _e = _b.apiURL, apiURL = _e === void 0 ? "https://api.geslub.cl" : _e, _f = _b.loginURL, loginURL = _f === void 0 ? "https://geslub.cl" : _f;
         this.id = id;
         this.domain = domain;
+        this.loginURL = loginURL;
         this.apis = {
-            baseURL: baseURL,
-            user: baseURL + "/private/user",
+            apiURL: apiURL,
+            user: apiURL + "/private/user",
         };
     }
     GeslubSession.prototype.getSession = function () {
@@ -93,8 +94,8 @@ var GeslubSession = /** @class */ (function () {
     };
     GeslubSession.prototype.getLoginURL = function (sendBackTo) {
         if (!sendBackTo)
-            return this.apis.baseURL;
-        return this.apis.baseURL + "/?redirect=" + sendBackTo;
+            return this.apis.apiURL;
+        return this.loginURL + "/?redirect=" + sendBackTo;
     };
     return GeslubSession;
 }());
