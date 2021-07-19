@@ -2,7 +2,7 @@ import Cookies from "universal-cookie";
 
 import * as I from "./index.types";
 
-const ApiTokenError = new Error("Token is undefined or invaild");
+const ApiTokenError = new Error("Invalid user session");
 ApiTokenError.name = "InvalidToken";
 
 const cookies = new Cookies();
