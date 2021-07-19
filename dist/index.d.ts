@@ -7,6 +7,7 @@ declare class GeslubSession {
     constructor({ id, domain, apiURL, loginURL, }?: I.GeslubSession);
     getSession(): I.Session | undefined;
     isSession(): boolean;
+    setSession(name: string, data: unknown, domain: string): void;
     removeSession(): void;
     getUser(): Promise<I.User>;
     getLoginURL(redirect?: string): string;

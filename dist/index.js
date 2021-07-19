@@ -60,6 +60,9 @@ var GeslubSession = /** @class */ (function () {
     GeslubSession.prototype.isSession = function () {
         return Boolean(this.getSession());
     };
+    GeslubSession.prototype.setSession = function (name, data, domain) {
+        cookies.set(name, data, { domain: domain });
+    };
     GeslubSession.prototype.removeSession = function () {
         cookies.remove(this.id, { domain: this.domain });
     };
