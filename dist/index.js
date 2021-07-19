@@ -45,10 +45,13 @@ ApiTokenError.name = "InvalidToken";
 var cookies = new universal_cookie_1.default();
 var GeslubSession = /** @class */ (function () {
     function GeslubSession(_a) {
-        var _b = _a === void 0 ? {} : _a, _c = _b.id, id = _c === void 0 ? "geslub-session" : _c, _d = _b.domain, domain = _d === void 0 ? "geslub.cl" : _d, _e = _b.authURL, authURL = _e === void 0 ? "https://api.geslub.cl/private/user" : _e;
+        var _b = _a === void 0 ? {} : _a, _c = _b.id, id = _c === void 0 ? "geslub-session" : _c, _d = _b.domain, domain = _d === void 0 ? "geslub.cl" : _d, _e = _b.baseURL, baseURL = _e === void 0 ? "https://api.geslub.cl" : _e;
         this.id = id;
         this.domain = domain;
-        this.authURL = authURL;
+        this.apis = {
+            baseURL: baseURL,
+            user: baseURL + "/private/user",
+        };
     }
     GeslubSession.prototype.getSession = function () {
         return cookies.get(this.id);
@@ -69,7 +72,7 @@ var GeslubSession = /** @class */ (function () {
                         token = (_a = cookies.get(this.id)) === null || _a === void 0 ? void 0 : _a.authToken;
                         if (!token)
                             throw ApiTokenError;
-                        return [4 /*yield*/, fetch(this.authURL, {
+                        return [4 /*yield*/, fetch(this.apis.user, {
                                 headers: {
                                     Authorization: "Bearer " + ((_b = cookies.get(this.id)) === null || _b === void 0 ? void 0 : _b.authToken),
                                 },
@@ -90,8 +93,8 @@ var GeslubSession = /** @class */ (function () {
     };
     GeslubSession.prototype.getLoginURL = function (sendBackTo) {
         if (!sendBackTo)
-            return this.authURL;
-        return this.authURL + "/?redirect=" + sendBackTo;
+            return this.apis.baseURL;
+        return this.apis.baseURL + "/?redirect=" + sendBackTo;
     };
     return GeslubSession;
 }());

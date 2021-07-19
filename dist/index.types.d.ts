@@ -18,5 +18,9 @@ export interface Session {
 export interface GeslubSession {
     id?: string;
     domain?: string;
-    authURL?: string;
+    baseURL?: string;
+}
+export interface Apis {
+    baseURL: string;
+    user: string;
 }
