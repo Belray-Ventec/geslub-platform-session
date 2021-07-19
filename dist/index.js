@@ -92,10 +92,10 @@ var GeslubSession = /** @class */ (function () {
             });
         });
     };
-    GeslubSession.prototype.getLoginURL = function (sendBackTo) {
-        if (!sendBackTo)
+    GeslubSession.prototype.getLoginURL = function (redirect) {
+        if (!redirect)
             return this.apis.apiURL;
-        return this.loginURL + "/?redirect=" + sendBackTo;
+        return this.loginURL + "?redirect=" + redirect;
     };
     return GeslubSession;
 }());

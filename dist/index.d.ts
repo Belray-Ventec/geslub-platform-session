@@ -9,6 +9,6 @@ declare class GeslubSession {
     isSession(): boolean;
     removeSession(): void;
     getUser(): Promise<I.User>;
-    getLoginURL(sendBackTo?: string): string;
+    getLoginURL(redirect?: string): string;
 }
 export default GeslubSession;
