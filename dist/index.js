@@ -40,7 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var universal_cookie_1 = __importDefault(require("universal-cookie"));
-var ApiTokenError = new Error("Token is undefined or invaild");
+var ApiTokenError = new Error("Invalid user session");
 ApiTokenError.name = "InvalidToken";
 var cookies = new universal_cookie_1.default();
 var GeslubSession = /** @class */ (function () {
