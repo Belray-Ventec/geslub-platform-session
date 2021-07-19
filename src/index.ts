@@ -10,18 +10,21 @@ const cookies = new Cookies();
 class GeslubSession {
   id: string;
   domain: string;
+  loginURL: string;
   apis: I.Apis;
 
   constructor({
     id = "geslub-session",
     domain = "geslub.cl",
-    baseURL = "https://api.geslub.cl",
+    apiURL = "https://api.geslub.cl",
+    loginURL = "https://geslub.cl",
   }: I.GeslubSession = {}) {
     this.id = id;
     this.domain = domain;
+    this.loginURL = loginURL;
     this.apis = {
-      baseURL,
-      user: `${baseURL}/private/user`,
+      apiURL,
+      user: `${apiURL}/private/user`,
     };
   }
 
@@ -56,9 +59,9 @@ class GeslubSession {
   }
 
   getLoginURL(sendBackTo?: string): string {
-    if (!sendBackTo) return this.apis.baseURL;
+    if (!sendBackTo) return this.apis.apiURL;
 
-    return `${this.apis.baseURL}/?redirect=${sendBackTo}`;
+    return `${this.loginURL}/?redirect=${sendBackTo}`;
   }
 }
 

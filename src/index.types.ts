@@ -20,10 +20,11 @@ export interface Session {
 export interface GeslubSession {
   id?: string;
   domain?: string;
-  baseURL?: string;
+  apiURL?: string;
+  loginURL?: string;
 }
 
 export interface Apis {
-  baseURL: string;
+  apiURL: string;
   user: string;
 }
