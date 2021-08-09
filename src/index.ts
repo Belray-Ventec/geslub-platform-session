@@ -63,7 +63,7 @@ class GeslubSession {
   }
 
   getLoginURL(redirect?: string): string {
-    if (!redirect) return this.apis.apiURL;
+    if (!redirect) return this.loginURL;
 
     return `${this.loginURL}?redirect=${redirect}`;
   }
