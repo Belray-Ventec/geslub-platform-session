@@ -97,7 +97,7 @@ var GeslubSession = /** @class */ (function () {
     };
     GeslubSession.prototype.getLoginURL = function (redirect) {
         if (!redirect)
-            return this.apis.apiURL;
+            return this.loginURL;
         return this.loginURL + "?redirect=" + redirect;
     };
     return GeslubSession;
