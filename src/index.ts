@@ -65,9 +65,9 @@ class GeslubSession {
     return data;
   }
 
-  getLoginURL(): string {
-    if (!this.redirect) return this.loginURL;
-    return `${this.loginURL}?redirect=${this.redirect}`;
+  getLoginURL({ shouldRedirect = false } = {}): string {
+    if (shouldRedirect) return `${this.loginURL}?redirect=${this.redirect}`;
+    return this.loginURL;
   }
 }
 

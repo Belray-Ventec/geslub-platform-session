@@ -1,6 +1,6 @@
 {
   "name": "geslub-platform-session",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Geslub Platform user session",
   "main": "dist/index.js",
   "scripts": {
