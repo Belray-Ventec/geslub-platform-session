@@ -11,6 +11,8 @@ declare class GeslubSession {
     setSession(name: string, data: unknown, domain: string): void;
     removeSession(): void;
     getUser(): Promise<I.User>;
-    getLoginURL(): string;
+    getLoginURL({ shouldRedirect }?: {
+        shouldRedirect?: boolean | undefined;
+    }): string;
 }
 export default GeslubSession;
