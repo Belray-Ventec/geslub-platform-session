@@ -22,6 +22,7 @@ export interface GeslubSession {
   domain?: string;
   apiURL?: string;
   loginURL?: string;
+  redirect?: string;
 }
 
 export interface Apis {

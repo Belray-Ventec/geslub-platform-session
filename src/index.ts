@@ -11,6 +11,7 @@ class GeslubSession {
   id: string;
   domain: string;
   loginURL: string;
+  redirect: string;
   apis: I.Apis;
 
   constructor({
@@ -18,10 +19,12 @@ class GeslubSession {
     domain = "geslub.cl",
     apiURL = "https://api.geslub.cl",
     loginURL = "https://geslub.cl",
+    redirect = "",
   }: I.GeslubSession = {}) {
     this.id = id;
     this.domain = domain;
     this.loginURL = loginURL;
+    this.redirect = redirect;
     this.apis = {
       apiURL,
       user: `${apiURL}/private/user`,
@@ -62,10 +65,9 @@ class GeslubSession {
     return data;
   }
 
-  getLoginURL(redirect?: string): string {
-    if (!redirect) return this.loginURL;
-
-    return `${this.loginURL}?redirect=${redirect}`;
+  getLoginURL(): string {
+    if (!this.redirect) return this.loginURL;
+    return `${this.loginURL}?redirect=${this.redirect}`;
   }
 }
 
