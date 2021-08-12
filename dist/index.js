@@ -96,10 +96,17 @@ var GeslubSession = /** @class */ (function () {
             });
         });
     };
-    GeslubSession.prototype.getLoginURL = function () {
-        if (!this.redirect)
-            return this.loginURL;
-        return this.loginURL + "?redirect=" + this.redirect;
+    /**
+     *
+     * @param {Object} obj - Configuraciones
+     * @param {Boolean} obj.shouldRedirect - Indica si luego del login se debe redirigir al usuario al redirect indicado en el constructor
+     * @returns
+     */
+    GeslubSession.prototype.getLoginURL = function (_a) {
+        var _b = _a === void 0 ? {} : _a, _c = _b.shouldRedirect, shouldRedirect = _c === void 0 ? false : _c;
+        if (shouldRedirect)
+            return this.loginURL + "?redirect=" + this.redirect;
+        return this.loginURL;
     };
     return GeslubSession;
 }());
