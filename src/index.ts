@@ -1,6 +1,7 @@
 import Cookies from "universal-cookie";
 
-import * as I from "./index.types";
+import * as I from "./types";
+import { DEV_SESSION, DEV_USER } from "./utils";
 
 const ApiTokenError = new Error("Invalid user session");
 ApiTokenError.name = "InvalidToken";
@@ -13,6 +14,7 @@ class GeslubSession {
   loginURL: string;
   redirect: string;
   apis: I.Apis;
+  devSession: boolean | I.User;
 
   constructor({
     id = "geslub-session",
@@ -20,15 +22,36 @@ class GeslubSession {
     apiURL = "https://api.geslub.cl",
     loginURL = "https://geslub.cl",
     redirect = "",
+    devSession = false,
   }: I.GeslubSession = {}) {
     this.id = id;
     this.domain = domain;
     this.loginURL = loginURL;
     this.redirect = redirect;
+    this.devSession = devSession;
     this.apis = {
       apiURL,
       user: `${apiURL}/private/user`,
     };
+
+    if (devSession) {
+      console?.warn("Se esta usando instancía de sesión de prueba");
+      if (typeof devSession === "object")
+        this.setSession(
+          this.id,
+          { ...DEV_SESSION, userId: devSession.id },
+          this.domain
+        );
+      else this.setSession(this.id, DEV_SESSION, this.domain);
+    }
+  }
+
+  setSession(
+    name: string,
+    data: { userId: string; authToken: string },
+    domain: string
+  ): void {
+    cookies.set(name, data, { domain });
   }
 
   getSession(): I.Session | undefined {
@@ -39,15 +62,14 @@ class GeslubSession {
     return Boolean(this.getSession());
   }
 
-  setSession(name: string, data: unknown, domain: string): void {
-    cookies.set(name, data, { domain });
-  }
-
   removeSession(): void {
     cookies.remove(this.id, { domain: this.domain });
   }
 
   async getUser(): Promise<I.User> {
+    if (this.devSession)
+      return typeof this.devSession === "object" ? this.devSession : DEV_USER;
+
     const token = cookies.get(this.id)?.authToken;
 
     if (!token) throw ApiTokenError;

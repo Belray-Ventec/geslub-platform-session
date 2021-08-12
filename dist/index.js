@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -40,29 +51,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var universal_cookie_1 = __importDefault(require("universal-cookie"));
+var utils_1 = require("./utils");
 var ApiTokenError = new Error("Invalid user session");
 ApiTokenError.name = "InvalidToken";
 var cookies = new universal_cookie_1.default();
 var GeslubSession = /** @class */ (function () {
     function GeslubSession(_a) {
-        var _b = _a === void 0 ? {} : _a, _c = _b.id, id = _c === void 0 ? "geslub-session" : _c, _d = _b.domain, domain = _d === void 0 ? "geslub.cl" : _d, _e = _b.apiURL, apiURL = _e === void 0 ? "https://api.geslub.cl" : _e, _f = _b.loginURL, loginURL = _f === void 0 ? "https://geslub.cl" : _f, _g = _b.redirect, redirect = _g === void 0 ? "" : _g;
+        var _b = _a === void 0 ? {} : _a, _c = _b.id, id = _c === void 0 ? "geslub-session" : _c, _d = _b.domain, domain = _d === void 0 ? "geslub.cl" : _d, _e = _b.apiURL, apiURL = _e === void 0 ? "https://api.geslub.cl" : _e, _f = _b.loginURL, loginURL = _f === void 0 ? "https://geslub.cl" : _f, _g = _b.redirect, redirect = _g === void 0 ? "" : _g, _h = _b.devSession, devSession = _h === void 0 ? false : _h;
         this.id = id;
         this.domain = domain;
         this.loginURL = loginURL;
         this.redirect = redirect;
+        this.devSession = devSession;
         this.apis = {
             apiURL: apiURL,
             user: apiURL + "/private/user",
         };
+        if (devSession) {
+            console === null || console === void 0 ? void 0 : console.warn("Se esta usando instancía de sesión de prueba");
+            if (typeof devSession === "object")
+                this.setSession(this.id, __assign(__assign({}, utils_1.DEV_SESSION), { userId: devSession.id }), this.domain);
+            else
+                this.setSession(this.id, utils_1.DEV_SESSION, this.domain);
+        }
     }
+    GeslubSession.prototype.setSession = function (name, data, domain) {
+        cookies.set(name, data, { domain: domain });
+    };
     GeslubSession.prototype.getSession = function () {
         return cookies.get(this.id);
     };
     GeslubSession.prototype.isSession = function () {
         return Boolean(this.getSession());
-    };
-    GeslubSession.prototype.setSession = function (name, data, domain) {
-        cookies.set(name, data, { domain: domain });
     };
     GeslubSession.prototype.removeSession = function () {
         cookies.remove(this.id, { domain: this.domain });
@@ -74,6 +94,8 @@ var GeslubSession = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
+                        if (this.devSession)
+                            return [2 /*return*/, typeof this.devSession === "object" ? this.devSession : utils_1.DEV_USER];
                         token = (_a = cookies.get(this.id)) === null || _a === void 0 ? void 0 : _a.authToken;
                         if (!token)
                             throw ApiTokenError;
@@ -96,12 +118,6 @@ var GeslubSession = /** @class */ (function () {
             });
         });
     };
-    /**
-     *
-     * @param {Object} obj - Configuraciones
-     * @param {Boolean} obj.shouldRedirect - Indica si luego del login se debe redirigir al usuario al redirect indicado en el constructor
-     * @returns
-     */
     GeslubSession.prototype.getLoginURL = function (_a) {
         var _b = _a === void 0 ? {} : _a, _c = _b.shouldRedirect, shouldRedirect = _c === void 0 ? false : _c;
         if (shouldRedirect)

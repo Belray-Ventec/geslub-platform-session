@@ -3,10 +3,9 @@ export interface User {
     usuario: string;
     correo: string;
     nombre: string;
-    contrasena: string;
     faenas: string[];
-    fechaCreacion: Date;
-    fechaActualizacion: Date;
+    fechaCreacion: string;
+    fechaActualizacion: string;
     plataformas: any;
     cargo?: string;
     avatar?: string;
@@ -21,6 +20,7 @@ export interface GeslubSession {
     apiURL?: string;
     loginURL?: string;
     redirect?: string;
+    devSession?: boolean | User;
 }
 export interface Apis {
     apiURL: string;
