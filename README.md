@@ -15,7 +15,7 @@ En terminal:
 ```js
 import GeslubSession from "geslub-platform-session";
 
-const Session = new GeslubSession();
+const Session = new GeslubSession(); // Ver sección de configuraciones para parametros
 ```
 
 ### Verificación de sesión existente
