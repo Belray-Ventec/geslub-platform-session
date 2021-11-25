@@ -4,10 +4,8 @@
   "description": "Geslub Platform user session",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "code-style": "prettier --write .",
-    "lint": "eslint .",
-    "test": "jest"
+    "dev": "ts-node-dev --respawn --transpile-only src",
+    "postinstall": "tsc"
   },
   "author": "José Núñez",
   "dependencies": {
