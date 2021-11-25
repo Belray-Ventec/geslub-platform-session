@@ -11,24 +11,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        node: ["14", "16"]
+    name: Node ${{ matrix.node }} sample
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
         with:
-          node-version: 12.x
-
-      - name: Installing Dependencies
-        run: npm ci
-
-      - name: Linting Codebase
-        run: eslint src
-
-      - name: Linting Codebase
-        run: prettier --check .
-
-      - name: Building Artefacts
-        run: npm run build
+          node-version: ${{ matrix.node }}
+      - run: npm ci
+      - run: eslint src
+      - run: prettier --check .
+      - run: npm tsc
