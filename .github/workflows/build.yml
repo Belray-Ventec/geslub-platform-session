@@ -22,6 +22,4 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - run: npm ci
-      - run: npm run lint
-      - run: npm run style
       - run: npm run postinstall
