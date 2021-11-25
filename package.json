@@ -5,9 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src",
-    "lint": "eslint src",
-    "style": "prettier --check .",
-    "postinstall": "tsc"
+    "postinstall": "tsc",
+    "prepare": "husky install"
   },
   "author": "José Núñez",
   "dependencies": {
@@ -19,9 +18,15 @@
     "@typescript-eslint/parser": "4.28.3",
     "eslint": "7.30.0",
     "eslint-plugin-jest": "24.3.6",
+    "husky": "7.0.4",
     "jest": "27.0.6",
+    "lint-staged": "12.1.2",
     "prettier": "2.3.2",
     "ts-node-dev": "1.1.8",
     "typescript": "4.3.5"
+  },
+  "lint-staged": {
+    "*.{js,ts}": "eslint --cache --fix",
+    "*.{js,ts,md}": "prettier --write"
   }
 }
