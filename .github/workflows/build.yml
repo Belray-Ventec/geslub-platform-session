@@ -22,6 +22,6 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - run: npm ci
-      - run: eslint src
-      - run: prettier --check .
+      - run: npm run lint
+      - run: npm run style
       - run: npm tsc
