@@ -1,6 +1,6 @@
 {
   "name": "geslub-platform-session",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Geslub Platform user session",
   "main": "dist/index.js",
   "scripts": {
@@ -27,6 +27,6 @@
   },
   "lint-staged": {
     "*.{js,ts}": "eslint --cache --fix",
-    "*.{js,ts,md}": "prettier --write"
+    "*": "prettier --write"
   }
 }
