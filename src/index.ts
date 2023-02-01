@@ -63,7 +63,7 @@ class GeslubSession {
   }
 
   removeSession(): void {
-    cookies.set(this.id, undefined, { domain: this.domain, maxAge: -1 });
+    cookies.remove(this.id, { domain: this.domain });
   }
 
   async getUser(): Promise<I.User> {
