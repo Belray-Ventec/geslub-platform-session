@@ -19,8 +19,8 @@ class GeslubSession {
   constructor({
     id = "geslub-session",
     domain = "geslub.cl",
-    apiURL = "https://api.geslub.cl",
-    loginURL = "https://geslub.cl",
+    apiURL = "http://api.geslub.cl",
+    loginURL = "http://geslub.cl",
     redirect = "",
     devSession = false,
   }: I.GeslubSession = {}) {
