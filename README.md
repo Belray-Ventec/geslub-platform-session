@@ -1,4 +1,4 @@
-# geslub-platform-session
+# LEGACY geslub-platform-session
 
 Librería de manipulación de sesión de usuario entre subdominios de Geslub.
 
